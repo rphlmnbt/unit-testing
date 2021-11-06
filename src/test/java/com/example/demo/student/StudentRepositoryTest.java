@@ -13,7 +13,7 @@ class StudentRepositoryTest {
     @Test
     void itShouldCheckIfStudentExistsEmail() {
         // given
-        String email = "jamila@gmail.com"
+        String email = "jamila@gmail.com";
         Student student = new Student(
                 "Jamila",
                 email,
