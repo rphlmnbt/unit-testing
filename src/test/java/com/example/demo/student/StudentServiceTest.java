@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import com.example.demo.student.exception.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +57,21 @@ class StudentServiceTest {
         assertThat(capturedStudent).isEqualTo(student);
     }
 
+    @Test
+    void willThrowWhenEmailIsTaken() {
+        // given
+        Student student = new Student(
+                "Jamila",
+                "jamila@gmail.com",
+                Gender.FEMALE
+        );
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.addStudent(student))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("Email " + student.getEmail() + " taken");
+    }
     @Test
     @Disabled
     void deleteStudent() {
