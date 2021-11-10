@@ -7,14 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StudentServiceTest {
@@ -81,7 +83,23 @@ class StudentServiceTest {
         verify(studentRepository, never()).save(any());
     }
     @Test
-    @Disabled
-    void deleteStudent() {
+    void canDeleteStudent() {
+        // given
+        Student student = new Student(
+                1L,
+                "Jamila",
+                "jamila@gmail.com",
+                Gender.FEMALE
+        );
+
+        // when
+        when(studentRepository.existsById(student.getId())).thenReturn(true);
+        underTest.deleteStudent(student.getId());
+
+        // then
+
+        verify(studentRepository)
+                .deleteById(student.getId());
+
     }
 }
